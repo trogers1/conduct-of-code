@@ -16,4 +16,3 @@ The purpose of the 'Conduct of Code' is threefold:
     - Stylistic things and code conventions that _cannot be caught by automations_ (e.g. 'prettier') can live here and be referenced (which can speed up code review). These sorts of things are often preferential/subjective, but a single source of truth for these conventions that can be referenced will often cut many repeated debates short.
 
 This is a living document and a constant Work in Progress. If you have suggestions on improvements, create an MR with the suggested change.
-
