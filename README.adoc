@@ -1,18 +1,23 @@
-Conduct of Code
+= Conduct of Code
 
-> Note: This represents _MY_ conduct of code. To create one for a team, fork the repo and edit/rewrite each page as a team.
+> Note: This represents __MY__ conduct of code. To create one for a team, fork the repo and edit/rewrite each page as a team.
 
 A 'Conduct of Code' is an operating manual or manifesto of best practices, goals, and guiding principles. I've generally created one with the help of my team whenever a new team is formed toward a specific goal. The documents here represents the agreed-upon operating procedures and principles for the engineering team.
 
 The purpose of the 'Conduct of Code' is threefold:
 
-1. Codify the Mission and Values of the Group
-    - While this may sounds 'mushy', having an agreed-upon set of goals and aspirations is a uniting force and allows the group to
-        - Make decisions more quickly based on these shared principles
-        - Give meaning and purpose to the decisions they make
-1. Codify Workflows, Procedures, and Decisions
-    - When decisions are made about _how_ work is completed by a group of people, it's easy for that to become tribal knowledge that shifts with each telling. Writing it down makes these sorts of decisions intentional and reference-able.
-1. Codify Best Practices
-    - Stylistic things and code conventions that _cannot be caught by automations_ (e.g. 'prettier') can live here and be referenced (which can speed up code review). These sorts of things are often preferential/subjective, but a single source of truth for these conventions that can be referenced will often cut many repeated debates short.
+. Codify the Mission and Values of the Group
++
+While this may sounds 'mushy', having an agreed-upon set of goals and aspirations is a uniting force and allows the group to:
+* Make decisions more quickly based on these shared principles
+* Give meaning and purpose to the decisions they make
++
+. Codify Workflows, Procedures, and Decisions
++
+When decisions are made about __how__ work is completed by a group of people, it's easy for that to become tribal knowledge that shifts with each telling. Writing it down makes these sorts of decisions intentional and reference-able.
++
+. Codify Best Practices
++
+Stylistic things and code conventions that __cannot be caught by automations__ (e.g. 'prettier') can live here and be referenced (which can speed up code review). These sorts of things are often preferential/subjective, but a single source of truth for these conventions that can be referenced will often cut many repeated debates short.
 
 This is a living document and a constant Work in Progress. If you have suggestions on improvements, create an MR with the suggested change.
