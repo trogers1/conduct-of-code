@@ -1,0 +1,126 @@
+= 🔬 Best Practices: Testing
+:toc:
+
+NOTE: As usual, this is a living document and, therefore, incomplete. Please treat it as such (and add/change any inadequacies!).
+
+== General Guidelines/Design Principles
+
+=== Focus on Value (Behavior Over Implementation)
+
+> Test that your code _produces the correct outcome for a given input_. Whether you get output `Y` from input `X` is what matters. Implementation details (like which internal function was called, or in what order) *_DO NOT MATTER_* and create brittle tests that resist refactoring.
+
+A key question when writing tests is:
+
+*"Will these tests make it easier or harder to completely rewrite this subsystem later?"*
+
+A good test suite should enforce correct outcomes from inputs and _make refactors easier_.
+
+====
+Example: Testing Authorization
+
+To verify that an endpoint restricts access to admins, a robust test would:
+
+. Authenticate in a realistic way (e.g., get a real token from your Identity Provider).
+. Call the endpoint with tokens for different user types (admin, regular user, none).
+. Assert the correct outcomes (accepted or rejected).
+
+This tests the *behavior* ("admin-only access"), not the *mechanism* (e.g., a specific `authorize()` function being called).
+Tests written this way act as a **safety net for change**, not a **straitjacket on your code**.
+====
+
+==== Code Smells (Indicators of Brittle Tests)
+
+These patterns suggest you are testing implementation, not behavior:
+
+* `verify(mockAuthService).toHaveBeenCalledTimes(2)`
+** *Why it's bad:* You've locked in _how many times_ a _specific_ internal method is called. Refactoring the authorization flow will break this test (if ordering changes or new functions replace old ones), even if the final behavior remains correct.
+* `mock('https://idp.example.com').return(fakeToken)`
+** *Why it's bad:* You've hard-coded assumptions about the _token format_ and the _specific external provider's_ response. If you change providers or token payloads, you must update countless mocks. Where possible, use a real test account to get a valid token.
+
+=== Strive for 'Zero-Assumption' Testing
+
+> Every mock is an assumption about how the system under test interacts with its dependencies. These assumptions often become outdated and break, leading to high test maintenance costs and painful refactors. Prefer using real dependencies whenever practical.
+
+This applies even to _non-destructive external calls_. If your system calls an external service, it's often better to:
+
+. Allow the real call to happen (to a test instance of that service).
+. Verify the *result* of that call by querying the external service again or checking its state.
+
+This ensures your test validates the _actual contract with the external world_, not your guessed-at version of it.
+
+=== Overview
+
+We use three main types of testing: End-to-End (e2e), Integration, and Unit testing (from highest-to-lowest level).
+
+* link:=end-to-end-testing[End-to-End testing] covers the systems as close to the user and as close to the data that you own and all of the systems/integrations in between. For a full-stack app, this includes the Front-end, Back-end, and Database. For a back-end team, these could also be called 'endpoint tests' and cover everything from the request to the database and every side-effect or branch in between. The idea is that the test use the full application as a user might. This provides great coverage of features, but the tests take longer to write and longer to run than other forms and the nature of e2e test suites means that they are often the most flaky.
+* link:=integration-testing[Integration testing] covers integrations between several subsystems/components/services while potentially mocking out others to keep the tests focused and deterministic. Integration tests should cover as much surface area as is reasonable (bringing them as close to e2e tests as reasonable), while still keeping them focused and comprehensive. This provides good coverage of features and edge cases and the interactions/interfaces between subsystems/components.
+* link:=unit-testing[Unit tests] are small, deterministic tests that test the specific input/output, states, and edge-cases of discrete, self-contained 'units' of code. This might be a function (such as a sorting function), or a single component (such as a table with sortable columns). These are fastest to write and fastest to run, but the benefit of the tests are limited to the exact 'unit' they are testing. They give no insight to whether or not that 'unit' works within the context of the larger application and therefore should generally be avoided unless the 'unit' is extremely complex and correctness is hard to ensure via integration tests.
+
+====
+Resources and Recommended Reading:
+
+* https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications[The Testing Trophy and Testing Classifications -- Kent C. Dodds]
+** A classic. A good introduction and overview to the 'best' ROI for types of testing and what those types are.
+* https://claritydev.net/blog/improving-react-testing-library-tests[Improving React Testing Library Tests]
+** A good overview of sensible defaults when writing RTL tests to ensure they are also checking accessibility.
+====
+
+[#end-to-end-testing]
+== End-To-End Testing
+
+The 80/20 of e2e testing is a 'happy path' test: A single test that runs through all of the basic functionality of your application, disregarding failure states (i.e. don't fail to sign in and test that failure also in the happy path). Other tests could be added for particularly complex and important subsystems, but generally a good happy path is sufficient to catch regressions.
+
+** Tech:
+*** https://playwright.dev/[Playwright]
+**** For spinning up headless browsers to interact with the Front-end of an application.
+*** https://vitest.dev/[Vitest]
+**** A Vite-native, fast testing framework that also works on the back-end if you aren't using vite.
+**** Alternatives: https://jestjs.io/[Jest], https://mochajs.org/[Mocha]
+
+
+[#integration-testing]
+== Integration Testing
+
+Most tests should be integration tests as they capture the interaction between various components (functions, react components, APIs, etc.), so they give you the most 'bang for buck'.
+
+** Tech:
+*** Front-end:
+**** https://testing-library.com/docs/react-testing-library/api/[React Testing Library]
+***** For rendering and testings components and their state.
+**** https://mswjs.io/[MSW (Mock Service Worker)]
+***** For mocking responses to HTTP requests on the Front-end
+*** Back-end:
+**** https://testcontainers.com/[Testcontainers]
+***** For spinning up database containers.
+**** https://github.com/nock/nock[Nock]
+***** For mocking responses to requests from within a JS runtime.
+*** All:
+**** Test runners: https://vitest.dev/[vitest] or https://mochajs.org/[Mocha] or https://jestjs.io/[Jest]
+
+
+[#unit-testing]
+== Unit Testing
+
+Only create unit tests for very complex functions/components with lots of edge cases that must be handled. NEVER test implementation details (i.e. 'does it call this method with these arguments'). Instead, test the _value_ that the piece of business logic provides to make sure that it will always provide that value.
+
+** Tech:
+*** https://jestjs.io/[Jest] or https://vitest.dev/[vitest]
+*** https://testing-library.com/docs/react-testing-library/api/[React Testing Library]
+**** For rendering and testings components and their state.
+
+
+== Patterns and Best Practices
+
+=== React Testing Library
+
+==== Use `*ByRole` By Default
+
+Using the `*ByRole` functions by default in React Testing Library tests cause one to also check that the various elements are accessible, as a11y software often uses roles to navigate a page. This is perferrable to `*ByLabelText` since it is a bit more flexible (as it checks both `<label>` and `aria-label`), though `*ByLabelText` may be necessary for some input fields (such as `password` and `email` fields).
+
+See https://claritydev.net/blog/improving-react-testing-library-tests[this article] for details.
+
+==== Use `userEvent` instead of `fireEvent`
+
+`userEvent` is a more faithful representation of how a user interacts with a page because it fires not just the specific event (e.g. `click`), but also the events around that event (e.g. `hover`, `keyDown`, `keyUp`, etc.)
+
+See https://claritydev.net/blog/improving-react-testing-library-tests[this article] for details.
