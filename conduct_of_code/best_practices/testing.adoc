@@ -1,4 +1,4 @@
-= 🔬 Best Practices: Testing
+= 🔬 Best Practices: Testing
 :toc:
 
 NOTE: As usual, this is a living document and, therefore, incomplete. Please treat it as such (and add/change any inadequacies!).

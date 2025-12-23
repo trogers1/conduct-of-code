@@ -1,0 +1,12 @@
+= 🖋️ Best Practices: Logging
+
+NOTE: As usual, this is a living document and, therefore, incomplete. Please treat it as such (and add/change any inadequacies!).
+
+> When in doubt, log it out
+> -- Someone wise
+
+Manual event logging should be done for every major event (e.g. Successful Login, Request Received, Signup Failure, data request success, etc). There should be sufficient logs that you could debug a user's problem from the logs their session sent out.
+
+Rule of thumb: if it would be useful to `console.log` or `console.info`, maybe you should log an event to the Observability software.
+
+Logging format and what data is included should be tracked in version control for every event type. This allows us to know if any event format/data changed for any event type as well as when it changed. That way, we can adjust metrics and dashboards appropriately.
