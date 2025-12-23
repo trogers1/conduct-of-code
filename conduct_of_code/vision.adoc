@@ -1,0 +1,13 @@
+= 🚀 Vision
+
+TIP: Just replace `I` with `we` (and `am` with `are`) as a starting point for your team!
+
+> If I do everything perfectly, what will it look like?
+
+* I am proud of the product I am working on
+* I am constantly growing and learning
+* I see the impact of what I build on the business and on customers
+* I enjoy working together as a team and feel that we are working toward a common goal
+* I have a reputation for excellence throughout the organization and am trusted by stakeholders and peers
+* I help ship code that I am proud of to production (almost) daily
+* I am a valuable resource to other engineers that they feel comfortable to use (meaning that I am approachable, knowledgeable, and helpful)

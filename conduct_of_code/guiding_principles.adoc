@@ -1,0 +1,50 @@
+= 🧭 Guiding Principles
+:toc:
+
+NOTE: None of these can ALWAYS be true. But I strive to make them true every day and use them for guidance when making decisions.
+
+== Bias For Action
+
+Be prepared to ship code. Be ready to take action. Take ownership of the projects we're responsible for.
+
+> In general, reviewers should favor approving a CL once it is in a state where it definitely improves the overall code health of the system being worked on, even if the CL isn’t perfect. -- https://google.github.io/eng-practices/review/reviewer/standard.html[The Standard of Code Review], Google
+
+
+== Leave It Better Than You Found It
+
+If you can fix it, fix it while you're there (as long as it doesn't create _significant_ scope creep).
+
+> Note: This can cause significant overhead if you aren't careful. Use your best judgement and defer to your reviewers if they don't have time to review the extra work.
+
+== Code Considerately
+
+Think of 'future you'. You won't remember why you did what you did.
+
+== 80/20
+
+Don't waste your effort. Put your effort toward the most impactful work.
+
+== Over-Abstraction is the Root of All Evil
+
+Think of the 'Rule of Three': Don't abstract until you've used the _exact_ same thing three times.
+
+== YAGNI: You Aren't Gonna Need It
+
+Wait until you actually need something before you build it or build for it. Avoid 'Speculative Generality'.
+
+== KISS: Keep It Simple, Stupid
+
+Simplicity is maintainability. Simplicity is flexibility. Simplicity is life.
+
+== Assume That _You're_ The Idiot
+
+Assume the best of those you're working with and that THEY know better than you. But confirm.
+
+== Hold Strong Opinions Loosely
+
+Be confident enough to have strong opinions, but not too dogmatic to change those opinions when new information indicates that you should.
+
+== Stay Consistent; Consistently Change
+
+Consistency is good for maintainability, but don't let it hold you back from improvement. Make sure improvements are made in a consistent way.
+When deciding to change, _execute the change_, don't just talk about it.

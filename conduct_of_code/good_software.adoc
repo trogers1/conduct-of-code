@@ -1,0 +1,114 @@
+= ✨ Defining ‘Good Software’
+
+The purpose here is to define a 'North Star'. In other words: What are we aiming for? What drives us? What is our shared definition of 'Good'?
+
+TIP: Start with a broad, train-of-thought-style brainstorm. Write everything down. When no more ideas are forthcoming, start to narrow and group things under similar themes until you have as concise of a definition as possible.
+
+== Areas of Concern
+
+* Developer Experience (`DX`)
+* User Experience (`UX`)
+* Business Interest (`BI`)
+* Security (`S`)
+
+== Definition
+
+* Simplicity
+** Code Simplicity [`DX`, `BI`, `S`]
+*** Complexity will occur, but always strive to simplify
+*** Helps with maintainability
+** Solves a Problem Simply [`UX`, `BI`]
+*** Should accomplish the desired goal with little friction for the user (i.e. impart information, sell tickets, find reviews, etc.)
+*** Value of each feature should be obvious (and features without proven value *_are removed_*)
+*** Should be able to prove usefulness (which will include observability/monitoring)
+* Flexibility/Changeability (i.e. Loose Coupling) [`DX`, `BI`]
+** Creates resilience to change
+** Tests prevent regression, but don't inhibit development
+*** They should make development _faster_
+** Reusable (within reason)
+** Modular (within reason)
+* Observability [`BI`, `DX`, `S`]
+** Should know how are people using the app
+** Should know when errors occur and what they are
+** Should _easily_ be able to debug live issues
+** Should know what features are most useful and least useful
+* Secure [`S`, `BI`, `UX`]
+** Good logging/observability
+** Automatically monitored for new bugs/vulnerabilities
+** Always available (scalable)
+** Data privacy is taken into account for every feature
+** Consistently and easily updatable
+* Creates Delight [`UX`, `BI`]
+** Performant
+** Solves your problem in a slick way
+** There is a 'cool' factor
+** Little Friction, No frustration
+*** Few bugs
+*** Simple to understand
+
+
+== Brainstorm List
+
+* Simple as possible
+** Complexity will occur, but strive for simplicity
+* Easy to understand
+* Change-able/Flexible
+* Scalable
+* Resilient
+  * Can push changes without breaking the app
+* Visible/Observable
+** How are people using the app?
+** When are errors occurring and what are they?
+** Able to debug
+* Secure
+* Performant
+* Fast to develop features on
+* Maintainable
+  * Resilient to change
+  * Easy to change
+  * Understandable
+* Usable
+* Solves a real problem
+* Reusable (within reason)
+* Modular (within reason)
+* Makes money
+* It creates enjoyment/delight to use it
+  * There's some element of surprise or whit
+  * There is a 'neat' or 'cool' factor
+* Testing
+** Not too much, not too little
+* Robust
+** Robust against outages — Stability
+** Robust against fragility or breaking old features without knowing — Resilience
+** How do we get a robust app? Tests
+* Functional
+** Must do what’s on the box
+** Tests ensure it retains functionality as we move forward
+* Reusable/Modular/Extensible
+** Devs can deliver value quickly
+** The software is Composable
+** The software is Adaptable
+** The software is not abstracted to the point that it is too complex to maintain/reuse.
+*** Abstraction rules:
+**** Use the ‘Rule of Three’ — don’t abstract unless the same functionality is used in at least 3 different places.
+***** Notice that this means novel code should almost never be abstracted 👀
+**** “Premature abstraction is the enemy of progress”
+**** “Duplication is far cheaper than the wrong abstraction”
+***** Have a bias toward duplication rather than always abstracting.
+**** Generally follow conventions, unless you want to make a solid case for a new convention/best practice to be agreed upon by the team
+**** Remember the 80-20 rule: 20 percent of the effort often gives you 80 percent of the value. Diminishing returns after that.
+* Maintainable (by few devs, with limited institutional knowledge)
+** Few errors and bugs
+** Tests ensure functionality does not regress without devs knowing
+** Warnings/errors are understandable and debuggable
+*** Problems can be broken down/are modular
+*** Devs can quickly find what’s broken
+** Well-documented: Functionality, architectural decisions, schemas, data flow can all be found
+** Devs never make code worse
+*** Devs don’t ever push code if it makes more warnings, errors, or bugs
+* Measurable
+** Devs know when the app is broken or not serving its intended purpose
+** Devs know how users are using the app to help prioritize features
+** Devs know quickly if the app is broken
+* Scalable
+** The project should be able to gracefully handle large increases in users without needing to re-architect or re-design (see other bullet points for how this is done)

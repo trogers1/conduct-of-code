@@ -1,8 +1,12 @@
-= Conduct of Code
+= 🎖️ Conduct of Code
 
-> Note: This represents __MY__ conduct of code. To create one for a team, fork the repo and edit/rewrite each page as a team.
+> Note: This represents __MY__ conduct of code. The 'Conduct of Code' idea is best implemented (and was originally designed) for an entire team. To create one for a team, fork the repo and edit/rewrite each page as a team.
 
-A 'Conduct of Code' is an operating manual or manifesto of best practices, goals, and guiding principles. I've generally created one with the help of my team whenever a new team is formed toward a specific goal. The documents here represents the agreed-upon operating procedures and principles for the engineering team.
+== What is this?
+
+A 'Conduct of Code' is an operating manual or manifesto of best practices, goals, and guiding principles. I've generally created one with the help of my team whenever a new team is formed toward a specific goal. The documents within the 'Conduct of Code' represent the agreed-upon operating procedures and principles for the engineering team (or, in this case, my own procedures and principles).
+
+== Purpose
 
 The purpose of the 'Conduct of Code' is threefold:
 
@@ -20,4 +24,11 @@ When decisions are made about __how__ work is completed by a group of people, it
 +
 Stylistic things and code conventions that __cannot be caught by automations__ (e.g. 'prettier') can live here and be referenced (which can speed up code review). These sorts of things are often preferential/subjective, but a single source of truth for these conventions that can be referenced will often cut many repeated debates short.
 
-This is a living document and a constant Work in Progress. If you have suggestions on improvements, create an MR with the suggested change.
+This is a living document and a constant Work in Progress (aren't we all?). If you have suggestions on improvements, create an MR with the suggested change.
+
+== Documents
+
+* link:./conduct_of_code/good_software.adoc[✨ Defining Good Software]
+* link:./conduct_of_code/vision.adoc[🚀 Vision]
+* link:./conduct_of_code/guiding_principles.adoc[🧭 Guiding Principles]
+* link:./conduct_of_code/best_practices/code.adoc[💯 Best Practices: Code]

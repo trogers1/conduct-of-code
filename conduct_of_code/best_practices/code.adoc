@@ -1,0 +1,310 @@
+= 💯 Best Practices: Code
+:toc:
+:source-highlighter: rouge
+
+== General Guidelines/Design Principles 
+
+NOTE: See link:../guiding_principles.adoc[the guiding principles] and the link:../good_software.adoc[definition of good software] for further reading.
+
+* Duplication over abstraction (within Reason)
+** Stick to the link:#rule-of-three[Rule of Three]
+* Stay away from Javascript
+** Javascript just hides problems, it doesn’t eliminate them. It allows you to code without fixing your bugs. Don’t do it. If you want your code to be maintainable and scalable, write in (well-typed) Typescript.
+* Loose Coupling
+** Always try to avoid coupling systems that don't _require_ it.
+
+== Functions
+
+=== Function Definitions
+
+> Function definitions should default to a single, object argument, rather than multiple arguments
+
+A single, object argument allow for more simple refactors (because you don't HAVE to break previous contracts) while also making it more easy to known how your variable might be used by the function you're invoking (if named properly).
+
+https://x.com/davidkpiano/status/1555175849569263618?s=12&t=a5lxVXndtO1AoFbjGU1ckw
+
+=== Function Return Types
+
+> In order to enforce contracts explicitly, Typescript functions should _generally_ include specified return types unless a function is simple enough (i.e. it does not have if-statements or switch-statements) that it is self-explanatory at a glance.
+
+Let's take this example function signature:
+
+[source, ts]
+----
+const getTitles = async ({ id }:{ id: string }): Promise<string[]> => {
+  const response = await fetch(`https://example.com/titles/${id}`);
+  if (response.ok) {
+    const { data } = response.json();
+    return data;
+  }
+  throw new HttpError({ status: response.status, title: response.statusText, detail: 'Unable to fetch titles' });
+};
+----
+
+Manually adding a return type forces you to recognize when you may have inadvertently broken the contract of a particular interface. Being explicit in your expectations for a return value will make TS throw an error if you ever accidentally return something other than you expect without realizing it. For example, what if we wanted to return 'false' instead of throw an error:
+
+[source, ts]
+----
+const getTitles = async ({ id }:{ id: string }): Promise<string[]> => {
+  const response = await fetch(`https://example.com/titles/${id}`);
+  if (response.ok) {
+    const { data } = response.json();
+    return data;
+  }
+  return false; // 👈 New Code (though this is against our Function Purity best practice, below.)
+};
+----
+
+If you do this, you have implicitly changed the return type from `Promise<string[]>` to `Promise<false | string[]>` because Typescript will recognize the new, correct return definition automatically. But Typescript will not force you to think about the consequences of that contract change or force you to handle `false` everywhere you might need to (though in many cases, TS will throw errors since `false` has no overlap with `string[]`). I f no return type was manually specified initially, you may not realize that you have broken the function’s contract, and may not realize that you now need to also refactor how it is used in every previous instance since you now need to handle whether or not it returns `false`.
+
+If instead, the return type is specified manually as `Promise<string[]>` from the beginning, then you would have to change the return type to correct the TS error that occurred when you refactored the function, which would clue you in to the fact that you’ve made a breaking change to the function definition.
+
+Also, for complex functions with logic branches, return types can insure correctness, especially across refactors.
+
+Finally, if you are writing Library code that will be bundled and transcribed into a type definition file, return types make it easy to work with your interfaces as well as improve compilation performance.
+
+==== Exception: Overrides
+
+As described in the video below, overrides can lead to mismatching return types and actual data if not careful. Avoid return types when multiples types can _legitimately_ be returned correctly (though treat such code with suspicion and extra care).
+
+==== Alternative, Contrary Take
+
+video::I6V2FkW1ozQ[youtube]
+
+
+But I agree with the commenter @DylanRJohnston: 
+
+> You keep calling it “lying” because you’re mistaking Typescript’s structural types with nominal types from other languages. In your User type example, you need to learn to read typescript types as contracts about minimum functionality not a maximum bound. It means this type has at least a username and an email, but it could have more. It allows typescript code to be much more composable if you embrace the structural typing instead of borrowing nominal typing ideas from other languages.
+
+
+=== Function Purity: Returns and Side-Effects
+
+> Functions/methods should return a value that indicates precisely what the results of the logic were with the given input and should strive to remain pure and without side-effects (such as modifying arguments by reference). 
+
+Instead of returning `true` on success and `false` on failure for a function like `multiplyObjectValues(args: { multiplier: number, obj: Record<string, number>}): Record<string, number>`, the function should return the resultant object (the object with all values multiplied by `args.multiplier`).
+
+* Rather than modifying `obj` by reference, a copy should be made and that copy should then be mutated and returned.
+** This makes testing easier and code easier to read and understand because the new object is returned and used, so it is obviously different than before the function was called.
+** Logic is easier to test and understand if you have an obvious 'before' and 'after' state.
+
+== Code Style
+
+> Generally, we should be enforcing code styling with automated tools as much as possible and we should be running those tools automatically _before pushing code_ to a remote branch (so we incorrectly-formatted code never makes it to our repository).
+
+=== Nested Ternaries
+
+> Nested ternaries can be hard to read and therefore lead to misunderstood code. Therefore, avoid nested ternaries in favor of `switch` statements or `if/else` blocks.
+
+== Naming
+
+
+=== General Naming 
+
+> Variables should have descriptive, readable names. Default to longer, more self-explanatory names over shorter, faster-to-type variable names.
+
+.General Naming
+|===
+|❌ Worse |✅ Better, Header Row
+
+| num
+| numUserSkillsWanted
+
+| curr
+| currentProviderId
+|===
+
+Descriptive variable names increase the maintainability of code by making the code more legible. `if (numUserSkillsWanted < numCourseWantedSkillsTaught)` immediately gives you the context of the logic in addition to the logic itself as opposed to something like `if (num < wanted)` (or, worse yet, `if (n < w)`), which would require the engineer to backtrack through the logic to get an understanding of the context of the particular `if` statement.
+
+=== Naming Booleans
+
+> `boolean` variables/properties should begin with [auxiliary verbs](http://www.grammar-monster.com/glossary/auxiliary_verbs.htm) that indicate _being_ or _having_ a certain condition in order to make it very obvious that `booleans` are `booleans`. E.g. `isFeature`, `hasChildren`, `willDeleteProfile`, `didSendEmail`, `wasAttatched`
+
+Using a prepended _indicator_ that denotes _being_ or _having_ a condition is a legible way to indicate the type of a variable or property. Without this Best Practice, if you see a property or variable named `feature`, it could be a function (i.e. you want to send off a request to ‘feature’ this item), it could be a boolean (i.e. denoting whether it is a feature), or it could be a string or number (i.e. containing the value of the ‘feature’). To limit this confusion (and thus increase maintainability), prepend an indicator verb, such as ‘is’, ‘has’, ‘was’, ‘did’, ‘will’, etc. that _indicates_ the status of a condition: `isFeature`.
+
+=== CRUD => CGUD
+
+When naming functions that make external calls that basically conform to CRUD operations (CREATE, READ, UPDATE, DELETE), use the following naming scheme:
+
+.CRUD Naming
+|===
+|CRUD Operation | Naming format |Example Name
+
+|CREATE
+|createXYZ
+|createUser
+
+|READ
+|getXYZ
+|getUserPermissions
+
+|UPDATE
+|updateXYZ
+|updateSiteSetting
+
+|DELETE
+|deleteXYZ
+|deleteObject
+|===
+
+[#rule-of-three]
+== Components, Abstraction, and the Rule of 3
+
+> In order to have loose coupling between our subsystems' usage and their implementation, we should be wrapping components/subsystems in a generic https://refactoring.guru/design-patterns/facade[facade] that are used at least three times (i.e. the `Rule of Three`) in our own interface. 
+
+For a Front-end example, we may be using a library's button component under-the-hood (perhaps for a11y), but we shouldn't directly import and style the Library's `Button` each time we use it--that would require any updates to our 'button' styling to be made many times throughout the codebase. If we have our own wrapper for our 'button' that we simply import everywhere, then we only need to make changes to that component in one place.
+
+
+This does NOT mean that our 'generic' wrappers/interfaces should be used in ALL cases. If a wrapped-component does not fit well for a different use-case, developers should opt to create a new, custom component. That custom component should live in a `/components` directory within the Page directory in which it is used. If it becomes used three times, it can be made into it's OWN wrapper component in `src/components`.
+
+.Example
+****
+Say we're working on a page called `DashboardPage`. `DashboardTable.tsx` is an example of a component that _could_ be abstracted to wrap a Library's Table (so we don't import the Library's component directly and become tightly-coupled to their interface/implementation). See that it was placed under `DashboardPage/components/`:
+
+....
+- DashboardPage/
+--- components/
+----- DashboardTable.tsx   👈 Wrapped Component
+--- index.tsx
+--- DashboardPage.tsx
+....
+
+Now, *_if this table was used in 3 different places/pages_* (i.e. Rule of Three), it can be moved into `/src/components` for further reuse:
+
+....
+src/
+--- components/
+------- Table.tsx    👈 Re-used, Abstracted, Wrapped Component
+--- DashboardPage/
+----- index.tsx
+----- DashboardPage.tsx
+....
+****
+
+The same concept applies to the Back-end. Say we want to spin up a local database to test a particular functionality. Don't bother making it general to other use-cases at first--simply make it work for your current use-case. The next time you want to spin up a local db to test something, copy that code and adjust it as needed. Then, on the third time, as long as the use-cases _really are essentially the same_, you can make a subsystem for spinning up a local db with test data.
+ 
+== Documentation and Comments
+
+> Documentation of Complex Decisions, Architecture, and Functionality is a goal worth striving for. Documentation should live as close to the source of complexity as possible. But comments becomes stale easily, so only document truly complex or unintuitive systems.
+
+* Documentation for multi-service or multi-system architecture or data flows between systems/services should be documented in a third-party software (Notion, Confluence, etc.).
+* Documentation for a specific service or repository should exist in a `README.md` in the repo or directory it describes.
+* Complicated (or simply unintuitive) functions, methods, types, and classes can have descriptive [JS Doc](https://jsdoc.app/index.html) comments,
+[source, ts]
+----
+/**
+  * A service that calls our our wrapper for the Users API to update the user with provided fields.
+  * 
+  * NOTE: There is an asynchronous side-effect that will be triggered that will update the user AFTER the function returns.
+  * The returned user object will be as the user was in the state BEFORE the update.
+  *
+ */
+export const updateUser = async ({ user }: { user: User }): Promise<User | undefined> => { /* ... */ };
+----
+
+This allows a user of the method to quickly understand the unintuitive aspects of the method without needing to go to the method itself to read the code. Most IDEs will show JS Doc strings when hovering over the entity wherever it's imported or used. This can also work for types (when, for example, `string` does not, in fact, mean any `string`, but a particular _kind_ of `string`). Note also that including URIs in a JS Doc can allow for quick references to pertinent documentation.
+
+This can help in instances where there are quirks or specifications about how or why a particular method or type must be used that may not be immediately obvious.
+
+== Types and Typing
+
+=== `type` vs `interface`
+
+> Generally prefer the use of `type` over `interface` because `types` have better IDE support (by showing properties more easily in tooltips) and are more easily combined and extended (e.g. union types).
+
+== Imports and Exports
+
+=== ES6 Style
+
+> Make sure to use correct import style: `import React from 'react';`. Do not use `require`.
+
+=== Relative Imports
+
+> Use relative imports as little as possible.
+
+Imports should all be relative to the project root (or use path aliasing) so that, if files are moved, imports are rarely broken. Instead, alias the root of the project and use that, e.g. `@/components/Header`
+
+=== Default Exports
+
+> Do not use default exports, if possible. Default exports can be confusing since they can be renamed to any other name non-explicitly or can be accidentally imported if not careful.
+
+=== Splat-Imports
+
+> Generally, try not to use splat-imports (e.g. `import * as MyService from '@/services/myservice'`) and instead destructure the import into only the variables that you need (e.g. `import { theMethodICareAbout } from '@/services/myservice'`).
+
+=== Export Location
+
+> Try to export declarations at the time of declaration, rather than exporting from a file at the bottom of the file.
+
+== Data Fetching
+
+=== Do Not Trust; Validate
+
+> Use some system (e.g. `typebox` or `zod` or `ajv`) to validate the shape of incoming data and throw if your requirements aren't met.
+
+Throw an error if you do not have the data you need as defined by your schemas, but simply send a warning log if there are extra attributes or attributes you don't care about do not meet your expected schema definition. You should throw because otherwise you will have undefined behavior in your application because you can no longer trust any contracts. Not throwing means you have to code as if it were Javascript and do serious defensive programming, since the Typescript types cannot be trusted for anything within your system that interacts with externally-fetched data.
+
+=== Async Error Handling
+
+> Always handle errors in async/await
+
+https://twitter.com/davidkpiano/status/1561082799515262976?s=21&t=dBvTZT-lFUtBnM4htNcBDg
+
+=== Loader Pattern
+
+> Use loaders. Use react-query from the front-end, when not able to use loaders.
+
+- The loader/react-query pattern
+  - when to use `defer`, `Suspense`, `useNavigation`
+  - How to deal with dependent queries (combine into single query function rather than using `enabled`?)
+
+=== React Query Keys
+
+> Always having a naming convention that is used throughout (e.g. system, then function name, then arguments) and always us the array (https://react-query-v3.tanstack.com/guides/query-keys=query-keys-are-hashed-deterministically[deterministic hashing])
+
+=== React Query `cacheTime` vs `staleTime`
+
+> rules-of-thumb/best-practices: https://tkdodo.eu/blog/practical-react-query
+
+=== Abstracting Hostnames
+
+> In general, try to abstract hostnames (e.g. `api.example.com`) to environmental variables unless the hostname is extremely well-known.
+
+The abstraction of hostnames adds an extra layer of security (should the code be compromised) as well as creating a single source of truth that can more easily be updated in the future.
+
+== Infrastructure
+
+
+=== Infrastructure as Code (IaC)
+
+> Infrastructure as Code (IaC) is the default. Manual configuration is a last resort and to be avoided as it is error-prone and not review-able.
+
+We should be using an IaC option (e.g. `terraform`, `cdktf`) to define our infrastructure. The `serverless framework` does not count as IaC as there are too many things you cannot configure and happen 'under the hood'.
+
+=== Tags
+
+> Resources should contain appropriate tags. E.g. `terraform: true`, `environment: <dev or prod>`, `service: <name>`, `workspace: <terraform workspace>`, etc.
+
+Terraform-managed resources should have a `terraform: true` tag. Environment should always be included in the name of the resource and be one of `staging` or `prod`.
+
+=== S3
+
+> S3 Buckets should be managed by `terraform` and in general should include the following best-practices:
+>
+> - Lifecycle definitions (this will be content-dependent, but we should try to have a time-to-live (TTL) for most data of 90 days before transition to S3 Glacier for 7 years.)
+> - No public access (instead, allow a particular Cloudfront distribution, EC2, Lambda, etc to access the bucket via a policy)
+> - Access Logs sent to a different bucket
+
+== APIs
+
+
+=== JSON:API Spec
+
+> API requests and responses should conform to https://jsonapi.org/[JSON:API specification].
+
+=== Validate Data-In; Validate Data-out
+
+> Use JSON Schema to define expected Request format and Response Format.
+
+=== Generate Types From JSON Schema
+
+> Use something like `typebox` or `zod` to validate incoming `Requests` and cast them to their appropriate type. Then validate your own `Response` to make sure you aren't breaking your contract.
