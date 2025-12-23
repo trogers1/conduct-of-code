@@ -227,7 +227,7 @@ Instead of returning `true` on success and `false` on failure for a function lik
 
 .General Naming
 |===
-|❌ Worse |✅ Better
+|❌ Worse |✅ Better
 
 |num
 |numUserSkillsWanted

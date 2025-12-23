@@ -1,0 +1,169 @@
+= 📊 Best Practices: Workflows
+:toc:
+
+IMPORTANT: Always work RIGHT TO LEFT on the Jira Board. This means that, if you are working on a ticket `In Progress`, but another ticket/subtask makes it to `Ready/Code Review`, the issue in Code Review takes priority. Therefore, you need to find a good place to stop your work as soon as you can and do that review.
+
+====
+Good rules-of-thumb while coding:
+
+* When stuck, reach out to subject matter experts (even outside the team) as soon as you can. It will make everything faster.
+* Your duck is your friend! Check-in quickly and often 🦆
+** As a 🦆, be sure to check in with your coder when you feel compelled!
+* Create small and Frequent MRs! Anything that can be broken up, break it up! Try for an MR a day!
+====
+
+== Ducking
+
+> "Ducking" is our terminology for "Ticket Planning" or "Pair Planning".
+
+Ducking should generally follow the following workflow:
+
+* The 'pair' consists of one `driver` and one `duck`
+** The `driver` is the engineer that will take the majority of the ownership for planning and coding the feature
+** The `duck` acts as a sounding board and 'rubber duck' for the `driver` and assists with the planning and code review of the feature. The `duck` may also serve other roles in addition, such as being called in for particular expertise to help code particular aspects of a feature.
+*** The `duck` does not generally spend their full-time on this ticket. They should usually have other work/tickets to do, but be called away to assist the `driver` when needed.
+* The `driver` takes the issue and does preliminary research to write out a plan for how to tackle the particular feature
+** The plan should be explicit and written (e.g. a bullet-point specification, skeleton tests that will need to pass for the feature to be complete, a checklist, subtasks in Jira, etc.)
+** The plan should also include likely breakdowns of the feature into xref:./mrs_and_review.adoc#mrs[separate, small Merge Requests].
+** The plan should also include what the expected testing will be for the given work, such as end-to-end, integration, unit, OR actual, pre-written tests if performing Test-Driven Development (TDD).
+* The `driver` sends the plan to the `duck`
+* After reading through the plan and coming up with questions/changes, the `duck` will either tell the `driver` that they approve, or they will meet with the `driver` to discuss any questions/changes.
+* Together, they make any necessary changes to the plan, the `driver` takes over and writes the code.
++
+NOTE: It's always OK for both the `duck` and `driver` to pair-program as well and for the `duck` to 'drive'. The roles are not exclusive and fixed, but more of guidelines.
++
+** If, in the course of writing the code, the `driver` finds that they need to make significant changes to the plan, they should consult with the `duck`.
+** The `duck` shall be available for ride-alongs and brainstorming as the `driver` works, but should move on to another issue/ticket.
+* For each MR for a particular feature, the `driver` assigns the `duck` as one of the reviewers along with another engineer.
+
+=== Pair Programming (🍐)
+
+Ducking is different from Pair Programming. Pair Programming is essentially just multiple engineers coding together. This is ad-hoc and as-needed. It needs no formal definition within our team.
+
+Ducking is a ticket workflow that should help make sure that there are no significant problems with the solution-design for a particular feature early on in the workflow process. It's a way to make sure our work/solution is double-checked before we spend too much time on it.
+
+== Traditional Agile Workflow
+
+* Epics == feature requests
+* A small group of 1-2 devs, the Product Owner, and a designer will meet regularly to discuss new epics.
+** Discussion should be along the lines of "Here's a problem we want to solve, what are some options" and, eventually picking a solution. That solution becomes the feature request and Acceptance Criteria of the Epic.
+** If the devs determine that more research is needed to figure out HOW to complete a particular feature, a Research ticket/issue is created and prioritized.
+*** The results of a research ticket should be an RFC that is then reviewed/approved by the team. A research ticket/issue is usually best Timeboxed (i.e. given an amount of time for completion). By the end of that timebox, the RFC should be written and in review.
+* Refine and Groom Epics into smaller tickets/issues that are discrete tasks that, once completed, will meet the criteria for the epic.
+* The dev team meets regularly to estimate a Level Of Effort (LOE) for each ticket/issue that has been refined. They may also determine to break up ticket, combine them, or send them back to be further refined.
+* Sprints are populated with tickets/issues that have estimates according to priority agreed upon by Product and the dev team.
+
+== Shape-Up Workflow
+
+The Shape-Up-Like workflow is as follows:
+
+* We have one or more Epics that we are committed to, each with an assigned Tech Lead
+* If you are a tech lead
+** Create a 'Research' ticket as a child of that Epic. Assign yourself to it and move the ticket to `In Progress` and the Epic status to `In Progress`
+** Write up an RFC, which is the plan for how to accomplish the user story along with any technical designs (Must/Should/Could has been useful for prioritizing features/work)
+** Send the finished RFC to the team. At least 2 devs (including one Subject Matter Expert [SME] if possible) should review the RFC (similar to a Code Review)
+** Meet with your 'reviewers' and adjust the plan if necessary according to the feedback
+** Once the plan is finalized, delegate as many tasks as possible to non-tech-lead engineers
+** Pair with others and work on each task as necessary, creating MRs/PRs as frequently as possible (as small as possible)
+** Review the code for every task/issue under your Epic.
+** For each distinct task that you take on, create a child ticket under the Epic (follow the same flow as if you weren't a tech lead, just without the downtime for small tasks since you are responsible for the entire Epic)
+*** When the task is complete, move it to `Done` and give it an LOE that represents the amount of effort that was required to finish it
+** Once the main user story of the Epic has been met, mark the Epic with the status `Done`
+* If you are not a tech lead
+** Grab small, easy tickets/issues in any downtime you have where you are not needed for a task related to any `In Progress` Epic
+** When review for an RFC or task/issue is needed, review it and give any feedback that you have
+** When a task/issue for an Epic is available, create the jira issue (if not already done), assign yourself and complete the task
+*** If the task/issue is complex (likely 3+ LOE), you should write up an RFC and go through the [ducking process](=ducking)
+*** When you create an MR/PR, add the link to the Jira issue and update the status to the `Review` status
+** Pair as much as possible with Tech Leads for Epics to help push them across the finish line
+
+== Git Workflow
+
+=== Git Branches
+
+When branching in with `git`, we want to stick to a standard naming convention so that we can easily identify via the `git` cli and in gitlab which issues/subtasks are being completed in a particular branch. Our branch naming should adhere to the https://conventional-branch.github.io/[Conventional Branch] structure with the following pattern:
+
+* For feature-branches and 'parent' branches (branches that are the main branch for a ticket/issue):
+** `feature/<jira-project-preface>-<issue-number>-short-description`
+*** e.g. `feature/proj-1234-update-sign-up-flow`
+* For subtasks under another issue and MRs that have been broken out of a feature:
+** `feature/<project-preface>-<parent-number>-<project-preface>-<child-number>-short-description`
+** e.g. `feature/proj-1234-proj-5678-require-sign-up`
+
+=== Git Commits
+
+Git commits are important because the represent the flow of work done in our project. From the branches that trigger deployments, we need to be able to cherry-pick, revert, and add features and standalone additions with ease. To that end, we must standardize our commit strategy so that potentially complicated git processes (such as reverting and cherry-picking) can be made easily and with the confidence that you won't break anything unrelated to that commit. To achieve this, we need to do two main things:
+
+* Make sure all of our commits are atomic/standalone pieces of work
+** This means that the commit can be reverted and cherry-picked and 'just work' without needing other changes and without breaking anything else.
++
+NOTE: I'm on the fence for this one since you could also just use git https://git-scm.com/book/en/v2/Git-Basics-Tagging[tags] for releases and only revert to tagged commits... This would solve the reversion scenario, but not the cherry-picking scenario.
++
+* Make sure our commit messages make it easy for us to quickly understand what the commit does
+** The commit messages then turn into the documentation of the code that was committed. This is especially useful when using IDE extensions like `GitLens`, but also when using a simple `git log`.
+
+Commits on the main branch should be atomic and represent the entirety of the work to make a particular feature or standalone piece of work. For example
+
+// the a below => ascii content
+.Commit History Examples
+[cols="1a,1a"]
+|===
+|❌ Worse |👍 Better
+
+|
+* another
+* fix onclick
+* adjust height
+* add new button
+* try using BtnComponent
+
+|
+* PROJ-1234: Added New Apply Button to Jobs Page
+|===
+
+Notice that the above 'Better' example would either require the engineer to wait until the feature was entirely completed before committing, or simply use `git commit --amend` when they inevitably find something wrong with their initial work. That's why squashing on merge is probably best:
+
+.Commit History Examples
+[cols="1a,1a"]
+|===
+|👍 Better |✅ Best
+
+|
+* PROJ-1234: Added New Apply Button to Jobs Page
+
+|
+* PROJ-1234: Added New Apply Button to Jobs Page 👈 Squash all commits into this one on merge
+* another
+* fix onclick
+* adjust height
+* add new button
+* try using BtnComponent
+
+|===
+
+In addition, notice the use of full, grammatically correct sentences for the final commit messages. The format for a commit message should be:
+
+''''
+<Parent/Child Issue Number(s)>: Short Description of Work
+
+(optional) Longer Description if the short description (maxing out at a length of ~50 characters) is not adequate to fully explain the work.
+''''
+
+For example, here would be a good commit message for two subtasks of a feature:
+
+```
+PROJ-1234/PROJ-2000: Add Router 6.4 to Auth Flow
+
+This is a refactor of the entire Authentication flow
+using React-Router v6.4 loaders.
+```
+
+```
+PROJ-1234/PROJ-2001: Remove Redux from Auth Flow 
+
+This removes Redux from the auth flow in
+its entirety. The `auth` store no longer
+exits.
+```
+
+Note, however, that one should be able to cherry pick either one of these commits and have them work independently. They must be standalone pieces of work. If removing redux and adding react-router cannot be done independently, they should be merged into a single commit. If it makes sense to review them separately to decrease MR size, they can made as separate, temporary commits, but must be squashed into a single commit after the review and before merging into a deployment branch.
