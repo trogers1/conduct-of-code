@@ -2,7 +2,7 @@
 :toc:
 :source-highlighter: rouge
 
-== General Guidelines/Design Principles 
+== General Guidelines/Design Principles
 
 NOTE: See link:../guiding_principles.adoc[the guiding principles] and the link:../good_software.adoc[definition of good software] for further reading.
 
@@ -12,6 +12,128 @@ NOTE: See link:../guiding_principles.adoc[the guiding principles] and the link:.
 ** Javascript just hides problems, it doesn’t eliminate them. It allows you to code without fixing your bugs. Don’t do it. If you want your code to be maintainable and scalable, write in (well-typed) Typescript.
 * Loose Coupling
 ** Always try to avoid coupling systems that don't _require_ it.
+
+[#rule-of-three]
+== Components, Abstraction, and the Rule of 3
+
+> In order to have loose coupling between our subsystems' usage and their implementation, we should be wrapping components/subsystems in a generic https://refactoring.guru/design-patterns/facade[facade] that are used at least three times (i.e. the `Rule of Three`) in our own interface.
+
+For a Front-end example, we may be using a library's button component under-the-hood (perhaps for a11y), but we shouldn't directly import and style the Library's `Button` each time we use it--that would require any updates to our 'button' styling to be made many times throughout the codebase. If we have our own wrapper for our 'button' that we simply import everywhere, then we only need to make changes to that component in one place.
+
+
+This does NOT mean that our 'generic' wrappers/interfaces should be used in ALL cases. If a wrapped-component does not fit well for a different use-case, developers should opt to create a new, custom component. That custom component should live in a `/components` directory within the Page directory in which it is used. If it becomes used three times, it can be made into it's OWN wrapper component in `src/components`.
+
+.Example
+****
+Say we're working on a page called `DashboardPage`. `DashboardTable.tsx` is an example of a component that _could_ be abstracted to wrap a Library's Table (so we don't import the Library's component directly and become tightly-coupled to their interface/implementation). See that it was placed under `DashboardPage/components/`:
+
+....
+- DashboardPage/
+--- components/
+----- DashboardTable.tsx   👈 Wrapped Component
+--- index.tsx
+--- DashboardPage.tsx
+....
+
+Now, *_if this table was used in 3 different places/pages_* (i.e. Rule of Three), it can be moved into `/src/components` for further reuse:
+
+....
+src/
+--- components/
+------- Table.tsx    👈 Re-used, Abstracted, Wrapped Component
+--- DashboardPage/
+----- index.tsx
+----- DashboardPage.tsx
+....
+****
+
+The same concept applies to the Back-end. Say we want to spin up a local database to test a particular functionality. Don't bother making it general to other use-cases at first--simply make it work for your current use-case. The next time you want to spin up a local db to test something, copy that code and adjust it as needed. Then, on the third time, as long as the use-cases _really are essentially the same_, you can make a subsystem for spinning up a local db with test data.
+
+== Data Fetching
+
+=== Do Not Trust; Validate (and Throw)
+
+> Use some system (e.g. `typebox` or `zod` or `ajv`) to validate the shape of incoming data and throw if your requirements aren't met.
+
+Throw an error if you do not have the data you need as defined by your schemas, but simply send a warning log if there are extra attributes or attributes you don't care about do not meet your expected schema definition.
+
+Why throw? Why not just let Javascript 'handle it'?
+
+Because then you should just be using Javascript. If you aren't enforcing your types as contracts, then you have ceded all of the benefits of the strict type system.
+
+You should throw because otherwise you will have undefined behavior in your application because you can no longer trust any contracts. Not throwing means you have to code as if it were Javascript and do serious defensive programming, since the Typescript types cannot be trusted for anything within your system that interacts with externally-fetched data.
+
+=== Async Error Handling
+
+> Always handle potential errors in async/await method calls. This may mean a lot of try/catch blocks in your data fetching code.
+
+https://twitter.com/davidkpiano/status/1561082799515262976?s=21&t=dBvTZT-lFUtBnM4htNcBDg
+
+=== React-Router 6.4+ Loader Pattern
+
+> Use loaders. Use react-query client-side when not able to use loaders.
+
+NOTE: The loader+react-query pattern can be powerful when caching is needed
+
+=== React Query
+
+There was a time when React Query (Tanstack Query) was the only sensible option when we were all using SPAs. Now, it's an optimization for Multi-page applications, so you probably don't need it.
+
+==== Query Chains and Dependent Queries
+
+
+> Combine dependent-queries into single query function rather than toggling `enabled` on each query as you work through them.
+
+==== React Query Keys
+
+> Always having a naming convention that is used throughout (e.g. system, then function name, then arguments) and always us the array (https://react-query-v3.tanstack.com/guides/query-keys=query-keys-are-hashed-deterministically[deterministic hashing])
+
+==== React Query `cacheTime` vs `staleTime`
+
+> rules-of-thumb/best-practices: https://tkdodo.eu/blog/practical-react-query
+
+=== Abstracting Hostnames
+
+> In general, try to abstract hostnames (e.g. `api.example.com`) to environmental variables unless the hostname is extremely well-known.
+
+The abstraction of hostnames adds an extra layer of security (should the code be compromised) as well as creating a single source of truth that can more easily be updated in the future.
+
+== Infrastructure
+
+=== Infrastructure as Code (IaC)
+
+> Infrastructure as Code (IaC) should always be the default. Manual configuration is a last resort and to be avoided as it is error-prone and not review-able.
+
+We should be using an IaC option (e.g. `terraform`, `cdktf`) to define our infrastructure. The `serverless framework` does not count as IaC as there are too many things you cannot configure and happen 'under the hood'.
+
+=== Tags
+
+> Resources should contain appropriate tags. E.g. `terraform: true` (or whatever IaC tooling the project uses), `environment: <dev or prod>`, `service: <name>`, `workspace: <terraform workspace>`, etc.
+
+Terraform-managed resources should have a `terraform: true` tag. Environment should always be included in the name of the resource and be one of `staging` or `prod`.
+
+=== S3
+
+> S3 Buckets should be managed by your IaC tooling and in general should include the following best-practices:
+>
+> - Lifecycle definitions (this will be content-dependent, but we should try to have a time-to-live (TTL) for most data of 90 days before transition to S3 Glacier for 7 years.)
+> - No public access (instead, allow a particular Cloudfront distribution, EC2, Lambda, etc to access the bucket via a policy)
+> - Access Logs sent to a different bucket
+
+== APIs
+
+
+=== JSON:API Spec
+
+> API requests and responses should conform to https://jsonapi.org/[JSON:API specification].
+
+=== Validate Data-In; Validate Data-out
+
+> Use JSON Schema to define expected Request format and Response Format.
+
+=== Generate Types From JSON Schema
+
+> Use something like `typebox` or `zod` to validate incoming `Requests` and cast them to their appropriate type *_after validating the data shape_*. Then validate your own `Response` to make sure you aren't breaking your contract.
 
 == Functions
 
@@ -65,21 +187,22 @@ Finally, if you are writing Library code that will be bundled and transcribed in
 
 ==== Exception: Overrides
 
-As described in the video below, overrides can lead to mismatching return types and actual data if not careful. Avoid return types when multiples types can _legitimately_ be returned correctly (though treat such code with suspicion and extra care).
+As described in the link:#theo-return-types[video below], overrides can lead to mismatching return types and actual data if not careful. Avoid return types when multiples types can _legitimately_ be returned correctly (though treat such code with suspicion and extra care).
 
+[#theo-return-types]
 ==== Alternative, Contrary Take
 
 video::I6V2FkW1ozQ[youtube]
 
 
-But I agree with the commenter @DylanRJohnston: 
+But I agree with the commenter @DylanRJohnston:
 
 > You keep calling it “lying” because you’re mistaking Typescript’s structural types with nominal types from other languages. In your User type example, you need to learn to read typescript types as contracts about minimum functionality not a maximum bound. It means this type has at least a username and an email, but it could have more. It allows typescript code to be much more composable if you embrace the structural typing instead of borrowing nominal typing ideas from other languages.
 
 
 === Function Purity: Returns and Side-Effects
 
-> Functions/methods should return a value that indicates precisely what the results of the logic were with the given input and should strive to remain pure and without side-effects (such as modifying arguments by reference). 
+> Functions/methods should return a value that indicates precisely what the results of the logic were with the given input and should strive to remain pure and without side-effects (such as modifying arguments by reference).
 
 Instead of returning `true` on success and `false` on failure for a function like `multiplyObjectValues(args: { multiplier: number, obj: Record<string, number>}): Record<string, number>`, the function should return the resultant object (the object with all values multiplied by `args.multiplier`).
 
@@ -91,26 +214,26 @@ Instead of returning `true` on success and `false` on failure for a function lik
 
 > Generally, we should be enforcing code styling with automated tools as much as possible and we should be running those tools automatically _before pushing code_ to a remote branch (so we incorrectly-formatted code never makes it to our repository).
 
-=== Nested Ternaries
+== Nested Ternaries
 
 > Nested ternaries can be hard to read and therefore lead to misunderstood code. Therefore, avoid nested ternaries in favor of `switch` statements or `if/else` blocks.
 
 == Naming
 
 
-=== General Naming 
+=== General Naming
 
 > Variables should have descriptive, readable names. Default to longer, more self-explanatory names over shorter, faster-to-type variable names.
 
 .General Naming
 |===
-|❌ Worse |✅ Better, Header Row
+|❌ Worse |✅ Better
 
-| num
-| numUserSkillsWanted
+|num
+|numUserSkillsWanted
 
-| curr
-| currentProviderId
+|curr
+|currentProviderId
 |===
 
 Descriptive variable names increase the maintainability of code by making the code more legible. `if (numUserSkillsWanted < numCourseWantedSkillsTaught)` immediately gives you the context of the logic in addition to the logic itself as opposed to something like `if (num < wanted)` (or, worse yet, `if (n < w)`), which would require the engineer to backtrack through the logic to get an understanding of the context of the particular `if` statement.
@@ -146,54 +269,22 @@ When naming functions that make external calls that basically conform to CRUD op
 |deleteObject
 |===
 
-[#rule-of-three]
-== Components, Abstraction, and the Rule of 3
 
-> In order to have loose coupling between our subsystems' usage and their implementation, we should be wrapping components/subsystems in a generic https://refactoring.guru/design-patterns/facade[facade] that are used at least three times (i.e. the `Rule of Three`) in our own interface. 
-
-For a Front-end example, we may be using a library's button component under-the-hood (perhaps for a11y), but we shouldn't directly import and style the Library's `Button` each time we use it--that would require any updates to our 'button' styling to be made many times throughout the codebase. If we have our own wrapper for our 'button' that we simply import everywhere, then we only need to make changes to that component in one place.
-
-
-This does NOT mean that our 'generic' wrappers/interfaces should be used in ALL cases. If a wrapped-component does not fit well for a different use-case, developers should opt to create a new, custom component. That custom component should live in a `/components` directory within the Page directory in which it is used. If it becomes used three times, it can be made into it's OWN wrapper component in `src/components`.
-
-.Example
-****
-Say we're working on a page called `DashboardPage`. `DashboardTable.tsx` is an example of a component that _could_ be abstracted to wrap a Library's Table (so we don't import the Library's component directly and become tightly-coupled to their interface/implementation). See that it was placed under `DashboardPage/components/`:
-
-....
-- DashboardPage/
---- components/
------ DashboardTable.tsx   👈 Wrapped Component
---- index.tsx
---- DashboardPage.tsx
-....
-
-Now, *_if this table was used in 3 different places/pages_* (i.e. Rule of Three), it can be moved into `/src/components` for further reuse:
-
-....
-src/
---- components/
-------- Table.tsx    👈 Re-used, Abstracted, Wrapped Component
---- DashboardPage/
------ index.tsx
------ DashboardPage.tsx
-....
-****
-
-The same concept applies to the Back-end. Say we want to spin up a local database to test a particular functionality. Don't bother making it general to other use-cases at first--simply make it work for your current use-case. The next time you want to spin up a local db to test something, copy that code and adjust it as needed. Then, on the third time, as long as the use-cases _really are essentially the same_, you can make a subsystem for spinning up a local db with test data.
- 
 == Documentation and Comments
+
+NOTE: See link:./documentation.adoc[the full Best Practices document].
 
 > Documentation of Complex Decisions, Architecture, and Functionality is a goal worth striving for. Documentation should live as close to the source of complexity as possible. But comments becomes stale easily, so only document truly complex or unintuitive systems.
 
 * Documentation for multi-service or multi-system architecture or data flows between systems/services should be documented in a third-party software (Notion, Confluence, etc.).
 * Documentation for a specific service or repository should exist in a `README.md` in the repo or directory it describes.
-* Complicated (or simply unintuitive) functions, methods, types, and classes can have descriptive [JS Doc](https://jsdoc.app/index.html) comments,
+* Complicated (or simply unintuitive) functions, methods, types, and classes can have descriptive [JS Doc](https://jsdoc.app/index.html) comments.
+
 [source, ts]
 ----
 /**
   * A service that calls our our wrapper for the Users API to update the user with provided fields.
-  * 
+  *
   * NOTE: There is an asynchronous side-effect that will be triggered that will update the user AFTER the function returns.
   * The returned user object will be as the user was in the state BEFORE the update.
   *
@@ -235,76 +326,3 @@ Imports should all be relative to the project root (or use path aliasing) so tha
 
 > Try to export declarations at the time of declaration, rather than exporting from a file at the bottom of the file.
 
-== Data Fetching
-
-=== Do Not Trust; Validate
-
-> Use some system (e.g. `typebox` or `zod` or `ajv`) to validate the shape of incoming data and throw if your requirements aren't met.
-
-Throw an error if you do not have the data you need as defined by your schemas, but simply send a warning log if there are extra attributes or attributes you don't care about do not meet your expected schema definition. You should throw because otherwise you will have undefined behavior in your application because you can no longer trust any contracts. Not throwing means you have to code as if it were Javascript and do serious defensive programming, since the Typescript types cannot be trusted for anything within your system that interacts with externally-fetched data.
-
-=== Async Error Handling
-
-> Always handle errors in async/await
-
-https://twitter.com/davidkpiano/status/1561082799515262976?s=21&t=dBvTZT-lFUtBnM4htNcBDg
-
-=== Loader Pattern
-
-> Use loaders. Use react-query from the front-end, when not able to use loaders.
-
-- The loader/react-query pattern
-  - when to use `defer`, `Suspense`, `useNavigation`
-  - How to deal with dependent queries (combine into single query function rather than using `enabled`?)
-
-=== React Query Keys
-
-> Always having a naming convention that is used throughout (e.g. system, then function name, then arguments) and always us the array (https://react-query-v3.tanstack.com/guides/query-keys=query-keys-are-hashed-deterministically[deterministic hashing])
-
-=== React Query `cacheTime` vs `staleTime`
-
-> rules-of-thumb/best-practices: https://tkdodo.eu/blog/practical-react-query
-
-=== Abstracting Hostnames
-
-> In general, try to abstract hostnames (e.g. `api.example.com`) to environmental variables unless the hostname is extremely well-known.
-
-The abstraction of hostnames adds an extra layer of security (should the code be compromised) as well as creating a single source of truth that can more easily be updated in the future.
-
-== Infrastructure
-
-
-=== Infrastructure as Code (IaC)
-
-> Infrastructure as Code (IaC) is the default. Manual configuration is a last resort and to be avoided as it is error-prone and not review-able.
-
-We should be using an IaC option (e.g. `terraform`, `cdktf`) to define our infrastructure. The `serverless framework` does not count as IaC as there are too many things you cannot configure and happen 'under the hood'.
-
-=== Tags
-
-> Resources should contain appropriate tags. E.g. `terraform: true`, `environment: <dev or prod>`, `service: <name>`, `workspace: <terraform workspace>`, etc.
-
-Terraform-managed resources should have a `terraform: true` tag. Environment should always be included in the name of the resource and be one of `staging` or `prod`.
-
-=== S3
-
-> S3 Buckets should be managed by `terraform` and in general should include the following best-practices:
->
-> - Lifecycle definitions (this will be content-dependent, but we should try to have a time-to-live (TTL) for most data of 90 days before transition to S3 Glacier for 7 years.)
-> - No public access (instead, allow a particular Cloudfront distribution, EC2, Lambda, etc to access the bucket via a policy)
-> - Access Logs sent to a different bucket
-
-== APIs
-
-
-=== JSON:API Spec
-
-> API requests and responses should conform to https://jsonapi.org/[JSON:API specification].
-
-=== Validate Data-In; Validate Data-out
-
-> Use JSON Schema to define expected Request format and Response Format.
-
-=== Generate Types From JSON Schema
-
-> Use something like `typebox` or `zod` to validate incoming `Requests` and cast them to their appropriate type. Then validate your own `Response` to make sure you aren't breaking your contract.
