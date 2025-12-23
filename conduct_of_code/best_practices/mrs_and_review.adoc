@@ -1,0 +1,61 @@
+= 🔍 Best Practices: Merge Requests and Code Review
+:toc:
+
+[#mrs]
+== Best Practices: Merge Requests (MRs)
+
+Merge Requests (known as Pull Requests in GitHub) are an important part of our workflow. Why should you write a good merge request?
+
+* A good merge request will be reviewed quickly
+* It reduces bug introduction into codebase
+* It facilitates new developers onboarding
+* It does not block other developers
+* It speeds up the code review process and consequently, product development
+
+In order to facilitate these benefits, an MR should try to meet the following criteria:
+
+* Be few line changes as possible (keep in mind: when much more than 250 lines of code are changed, https://smartbear.com/learn/code-review/best-practices-for-peer-code-review/[more bugs are missed by reviewers])
+** This may require breaking a larger MR down into smaller ones. This gets easier with practice.
+* Each MR should follow the Single Responsibility Principle, i.e. they should do only one thing
+* There should be a link to the issue for quick reference to the Acceptance Criteria and Description of the feature
+* The title should clearly describe the point of the MR
+* The description should clearly indicate what roll the MR serves in the larger context of the issue/feature.
+
+====
+📚 Sources:
+
+* https://opensource.com/article/18/6/anatomy-perfect-pull-request[Anatomy of a Pull Request — OpenSource.com]
+====
+
+[#review]
+== Best Practices: Code Reviews
+
+> In general, reviewers should favor approving a CL once it is in a state where it definitely improves the overall code health of the system being worked on, even if the CL isn’t perfect. 
+> -- https://google.github.io/eng-practices/review/reviewer/standard.html[The Standard of Code Review], Google
+
+The ability to do a good Code Review is one of the most important things an engineer can learn how to do. Every Code Review is an opportunity to learn and should be approached as such. The participants of a Code Review are the Coder (the person who made the MR) and two Reviewers (whose approval are required to merge the code). Here are our guidelines regarding Code Reviews:
+
+* Always Assume the Best
+** Always approach an MR like you are the least knowledgeable person there. Assume the Coder knows what they're doing and you've missed something if it seems wrong, and, if you've missed something, ask for clarification.
+* Each comment is an invitation to a conversation on how to make the code the best it can be, not an invitation to single combat.
+** Ask questions, rather than dictate solutions. This facilitates conversation, rather than combat.
+*** "Would X be a clearer name here, or am I missing part of the functionality?" is much more approachable and actionable than "Y => X" or "Y is unclear, let's change to X."
+*** "What's your reason for going with Y approach instead of X? My first thought would be X would be better for Z reasons, but I could definitely be missing a problem with it" is much is much more likely to create a productive, educational conversation for both parties than "We should use X approach here instead".
+* It's never, _ever_, personal
+** A Code Review is not about "picking apart someone's code," it's about making sure that together we all create the most stable, most maintainable product possible. As soon as the code reaches `staging`, it's now _everyone's_ code, not just the original coder. An approval is a mark of co-authorship, and the main branches are owned by the whole team, so "your" code is also "my" code once I approve it. Code Review is not a judgement about any particular person, it's about making the code it's the best it can be, no matter who's idea it is.
+* Majority Rules
+** Two Reviewers + 1 Coder => 3 opinions (i.e. an odd number). If there is disagreement between two engineers on a comment/approach and they simply _cannot_ agree, the third engineer acts as a tiebreaker with both other engineers needing to present their argument to the third.
+* Use `nit`
+** Comments that are prefaced with `nit` indicate a nitpick, i.e. something that could be addressed if the Coder wants to, but isn't necessary for approval.
+*** Ex: `nit`: I could see us also going with approach X here because of Y reasons. Thoughts?
+*** `nit` MR comments are OPTIONAL! Don’t let them hold up MRs
+* Two Approvals are required to Merge
+* Use "👍"
+** If you do not feel qualified to give a full approval, but think the code looks good enough, give a "👍" and request another reviewer.
+* Use `LGTM`
+** Use `LGTM` to indicate that you are happy to approve after the outstanding comments are resolved.
+* Try to do a synchronous, in-person 'dog pile' (i.e. meet and work through outstanding comments live) for the second review
+** Coder: reach out to schedule a dog pile after addressing all review comments.
+** Reviewer(s): Be sure to either
+*** Give a `LGTM` or Approval by the end of the Dogpile, OR
+*** Schedule another dog pile/review if the changes are significant
