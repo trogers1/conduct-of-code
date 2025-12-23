@@ -270,6 +270,7 @@ When naming functions that make external calls that basically conform to CRUD op
 |===
 
 
+[#documentation]
 == Documentation and Comments
 
 NOTE: See link:./documentation.adoc[the full Best Practices document].

@@ -1,0 +1,24 @@
+= 📚 Documentation
+:toc:
+
+We use four basic formats for documentation: JSDoc-style comments, the `README.md` files in repositories, third-party documentation options (e.g. Notion, Confluence, etc.), and this Conduct of Code. Each serves a distinct purpose as outlined below.
+
+> Our basic philosophy is that documentation should live as close to the thing being documented as possible. To that end, we will start low-level and work our way up from there.
+
+== Code Comments and JSDocs (lowest level)
+
+A JSDoc comment is the preferred way to document types, functions, or, perhaps, variables. This is only appropriate if the documentation is needed only to document a particular part of code that is neatly encompassed by a function, type, or variable as outlined in the xref:./code.adoc#documentation[Code Best Practices document].
+
+== README
+
+The README is important for documentation of how code works, why it works, setup processes for particular services, etc. Anything that is specific to a subsystem should live with that code. Anything that isn't self-evident in the code should probably be documented.
+
+== Third-Party Option
+
+A Third-Party option (such as Notion workspace, Confluence space, a repository for documentation, etc.) should be used for documentation of team-related processes such as Requests for Comment (RFCs), Design Documents, Retrospectives, Definition of 'Ready', Product/Feature Documentation, Process Documentation, etc. Basically, anything that isn't specifically about particular code or spans multiple systems/repositories. Using an option that has change-management is a benefit, as then the team can go through the same workflow as code review to approve new processes, workflows, system designs, etc.
+
+If the code being documented lives in a single service/repository, the documentation probably belongs as close to the code as possible, which is usually in a `README.md`. If a process spans multiple services/repositories, that flow should be documented in the Third-Party option.
+
+== Conduct of Code (highest level)
+
+The Conduct of Code is a repository for Team best practices, vision, workflows, rules, and guidelines. It is a sort of 'guiding principles' document--a 'Constitution' for the team. This is where abstract things such as Best Practices, Workflow definitions, etc. should live. The Conduct of Code is specifically Engineering-focused. Anything related to the team outside of engineering should live somewhere accessible to those parties.
