@@ -28,7 +28,7 @@ This is a living document and a constant Work in Progress (aren't we all?). If y
 
 == Documents
 
-* link:./conduct_of_code/disaster.adoc[✨ Disaster Recovery Plan] (Coming Soon!)
+* link:./conduct_of_code/disaster.adoc[🌋 Disaster Recovery Plan] (Coming Soon!)
 * link:./conduct_of_code/good_software.adoc[✨ Defining Good Software]
 * link:./conduct_of_code/vision.adoc[🚀 Vision]
 * link:./conduct_of_code/guiding_principles.adoc[🧭 Guiding Principles]
