@@ -143,30 +143,28 @@ Notice that the above 'Better' example would either require the engineer to wait
 
 In addition, notice the use of full, grammatically correct sentences for the final commit messages. The format for a commit message should be:
 
-''''
+----
 <Parent/Child Issue Number(s)>: Short Description of Work
 
 (optional) Longer Description if the short description (maxing out at a length of ~50 characters) is not adequate to fully explain the work.
-''''
+----
 
 For example, here would be good commit messages for two subtasks of a feature:
 
-====
-''''
+
+----
 PROJ-1234/PROJ-2000: Add Router 6.4 to Auth Flow
 
 This is a refactor of the entire Authentication flow
 using React-Router v6.4 loaders.
-''''
----
 
-''''
+
+
 PROJ-1234/PROJ-2001: Remove Redux from Auth Flow 
 
 This removes Redux from the auth flow in
 its entirety. The `auth` store no longer
 exits.
-''''
-====
+----
 
 Note, however, that one should be able to cherry pick either one of these commits and have them work independently. They must be standalone pieces of work. If removing redux and adding react-router cannot be done independently, they should be merged into a single commit. If it makes sense to review them separately to decrease MR size, they can made as separate, temporary commits, but must be squashed into a single commit after the review and before merging into a deployment branch.
