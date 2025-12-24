@@ -1,0 +1,96 @@
+= 🛳️ Onboarding
+
+IMPORTANT: If you are onboarding, it's your job to update this list with anything you notice we forgot!
+
+NOTE: This would be used for onboarding new engineers to the team--getting access to various softwares, email groups, slack channels, etc. But, since this is just for me, I will use it as my onboarding checklist when I get a new computer to get it set up how I like.
+
+* [ ] Update OS
+* [ ] Go to settings to
+*** [ ] Enable two-finger tap ‘right click’
+*** [ ] Increase track pad speed
+* [ ] Install XCode
+*** [ ] More particularly: [Command Line Tools](https://developer.apple.com/download/all/?q=command%20line)
+* [ ] Install Spark Email Client
+* [ ] Browser Setup (Perhaps install https://zen-browser.app/[Zen Browser])
+*** [ ] Install Bitwarden
+*** [ ] Search: DuckDuckGo
+*** [ ] Advanced: Show full website address
+*** [ ] Advanced: Show features for web developers
+*** [ ] View: Show Status bar (for links on hover)
+* [ ] Install Terminal Emulator (https://ghostty.org/[Ghostty])
+* [ ] Install homebrew
+* [ ] Install `lazygit` ([repo](https://github.com/jesseduffield/lazygit))
+*** [ ] `brew install lazygit`
+* [ ] Get `git` set up [with ssh](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) to GitHub
+*** [ ] [Create new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and [add it](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) to the github account
+* [ ] Grab My `.zprofile` from GitHub and move to `~`
+* [ ] Install [NerdFonts](https://www.nerdfonts.com)
+*** [ ] I’ve liked FiraCode and GoMono before…
+*** [ ] Add it to your terminal(s) preferences
+* [ ] Install [nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
+*** [ ] `nvm install --lts`
+* [ ] Install Nvim
+*** [ ] Homebrew is an option, as discussed [on the Install page](https://github.com/neovim/neovim/blob/master/INSTALL.md)
+*** [ ] With my config [from GitHub](https://github.com/trogers1/kickstart.nvim)
+*** [ ] Install `ripgrep` for [the kickstart config](https://github.com/trogers1/kickstart.nvim?tab=readme-ov-file#install-external-dependencies): `brew install ripgrep`
+*** [ ] Start nvim to install all plugins (make sure nvm is installed and node has been installed globally first or the ts/js/prettier/css language servers will fail to install)
+*** [ ] Install any LSP requirements that I want (Golang, terraform, etc.)
+* [ ] Install Browsers
+*** [ ] Firefox
+*** [ ] Chrome
+* [ ] Install VS Code and maybe Cursor
+*** [ ] Sync settings by signing in with GitHub
+* [ ] Probably some docker solution (Rancher Desktop or Colima?)
+
+== Probably
+
+* [ ] Spotify (or just use the browser and pin the tab so you can actually close it)
+* [ ] VPN of some sort
+*** [ ] Mullvad
+
+== IDE Extensions (VSCode)
+
+=== Required
+
+* [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+* [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+* [Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)
+* [Snyk Security](https://marketplace.visualstudio.com/items?itemName=snyk-security.snyk-vulnerability-scanner)
+
+=== Recommended
+
+* [Terraform](https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform)
+* [Git Lens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+* [Live Share](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare)
+* [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+* [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
+
+== macOS
+
+A unix-like environment is helpful, but you'll still need to install some things such as
+
+* install `homebrew`
+* install `nvm` with homebrew
+* install docker and cogima/Rancher Desktop
+* Install browsers
+
+
+== Windows
+
+I’ll need a Unix-like dev environment to develop. I am not a fan of Windows nor am I super familiar with it, so everything takes me much longer to figure out. 
+
+To get Windows to be as much like a Unix-like system as possible, the most appropriate option is probably the Windows Subsystem for Linux (WSL). To set up WSL, I’ll [need to install it](https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview), which can be done via a command prompt (either `Powershell` or `cmd`). Generally, you can just use a command like
+
+`wsl --install ubuntu`
+
+This will install the Ubuntu subsystem.
+
+From there, you should be able to see a "Ubuntu" startup item in your Start Menu. You can use this to launch a WSL2 terminal.
+
+From there, you should use `git` to clone one of the team's repositories into the directory of your choosing (this will likely require you to create an SSH key).
+
+From there, you can `cd` into the folder that was just created (you can use `ls` to view the file structure and see the folder you just created) and then use `code .` to open VS Code in WSL2. This will properly link your subsystem's file system with VS Code.
+
+If you successfully linked WSL2, you should see this in the lower-left corner of your VS Code instance.
+
+Linking the WSL2 file system with VS Code properly is very important! If you attempt to open the repository from within Windows itself, simple actions such as `yarn install` will take much longer to complete than normal.

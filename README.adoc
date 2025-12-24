@@ -38,4 +38,4 @@ This is a living document and a constant Work in Progress (aren't we all?). If y
 * link:./conduct_of_code/best_practices/workflows.adoc[🗺️ Best Practices: Workflows]
 * link:./conduct_of_code/best_practices/documentation.adoc[📚 Best Practices: Documentation]
 * link:./conduct_of_code/best_practices/mrs_and_review.adoc[🔍 Best Practices: Merge Requests and Code Review]
-* link:./conduct_of_code/onboarding.adoc[🛳️ Onboarding] (Coming Soon!)
+* link:./conduct_of_code/onboarding.adoc[🛳️ Onboarding]
