@@ -1,0 +1,54 @@
+= 🌋 Disaster Recovery Plan
+
+IMPORTANT: This document should be very specific to a team, company-specific tooling, and the surface area the team owns.
+
+[#priority]
+== What is a 'Disaster' and When Should This Checklist Be Used
+
+*A Disaster*
+
+The basic definition is that the outage _will cause us to break our Service Level Agreement (SLA, *provide link if available*)_ if left alone.
+
+IMPORTANT: Here is where you need a matrix or method for determining the priority of the current error(s) between 1-5, with Priority 1 and 2 being disaster-level. Outage-level errors are those that impact X% of users' ability to interact with Core Functionality of the application.
+
+=== Core Functionality
+
+To determine the criticality of any outage, you need to know if it impacts 'Core Functionality' of the application. Here is the Core Functionality of a Basic Application (*update with the Core Functionality of any given system/application*):
+
+* Access and Authentication
+** This includes SSO, if supported
+* Accurate Permissions/Authorization (no unauthorized access to data)
+* Users can perform CRUD (Create, Read, Update, Delete) for core data
+* Users can perform integration actions to external software that we support
+* Users with the correct permissions can add/delete users
+* API-users can use all documented externally-available endpoints as documented
+
+== Action Items From Previous Drill
+
+* [ ] Improve X system in Y way
+
+== Disaster Order of Operations/Checklist _(Priority 1 or 2)_
+
+* [ ] Make sure there’s an actual outage, what it is, and what Priority number it is via the process link:#priority[above].
+* [ ] If an outage is determined to exist, assign an Engineering Point of Contact (EPOC) for the entire outage (this will typically be the On Call Engineer)
+** [ ] EPOC should determine which engineers (if any additional) are needed to resolve the issue and contact them to start investigating the outage.
+*** Engineers should start trying to resolve the issue **immediately**.
+*** **NOTE:** Not all outages require all engineers to be pulled from what they're doing or their bed. For example, upstream outages without possible workarounds may not require any active engineering time from the team while some other outages may require 'all hands on deck' to resolve.
+** [ ] EPOC creates an outage channel for ongoing internal updates
+*** [ ] An outage channel should be created for each of the major affected areas of the application (i.e. FE, BE, or any large subsystem)
+*** [ ] It is the EPOC's responsibility to monitor the channels for questions and provide regular (at most, hourly) updates to them.
+**** [ ] Set a reminder to be reminded in an hour (redo this every hour)
+** [ ] A first update should be given to each new outage channel along the lines of ‘We are seeing issues with `<X>` service and are working on a fix. Updates will follow as they become available’.
+*** *NOTE:* Feel free to copy this checklist into a editable format elsewhere (Notion, confluence, slack canvas etc.) to keep track of the current outage status
+** [ ] EPOC reaches out to Product Manager/Product Owner to tell them about the outage, link to the outage channels, and provide any necessary context.
+** [ ] EPOC updates the appropriate Status Page (*provide link and method for access*).
+*** [ ] _Include steps to provide the status page update_.
+** [ ] EPOC must post updates to the newly created channels and Status Page as new updates become available, and on every hour (set a timer or something so you don’t forget).
+*** [ ] If there is no update on the hour, just post something to the effect of ‘We are still working on `<X>` issue and will report back when we have an update.’
+* [ ] Engineers should be working to resolve the outage throughout and communicating any updates with the EPOC, who will also be reaching out to the engineers every hour for updates if they haven’t heard any.
+*** [ ] Engineers who are unaware of the outage and needed for recovery should be contacted and immediately start working toward a resolution.
+*** For any new branches, use the format `hotfix/<short-description>`.
+* [ ] After the incident is resolved, the EPOC needs to write up a post-mortem (*link to post-mortem destination*) which includes timestamps for major milestones in the discovery and solution process.
+** The EPOC should work with the engineers who solved the issues to write up the post-mortem
+** The post-mortem should include learnings and action items to avoid the same underlying issues in the future.
+* [ ] The post-mortem should then be presented to the team and potentially stakeholders or the department.
