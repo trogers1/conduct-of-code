@@ -6,64 +6,71 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 
 * [ ] Update OS
 * [ ] Go to settings to
-*** [ ] Enable two-finger tap ‘right click’
-*** [ ] Increase track pad speed
+** [ ] Enable two-finger tap ‘right click’
+** [ ] Increase track pad speed
 * [ ] Install XCode
-*** [ ] More particularly: [Command Line Tools](https://developer.apple.com/download/all/?q=command%20line)
+** [ ] More particularly: https://developer.apple.com/download/all/?q=command%20line[Command Line Tools]
 * [ ] Install Spark Email Client
 * [ ] Browser Setup (Perhaps install https://zen-browser.app/[Zen Browser])
-*** [ ] Install Bitwarden
-*** [ ] Search: DuckDuckGo
-*** [ ] Advanced: Show full website address
-*** [ ] Advanced: Show features for web developers
-*** [ ] View: Show Status bar (for links on hover)
+** [ ] Install Bitwarden
+** [ ] Search: DuckDuckGo
+** [ ] Advanced: Show full website address
+** [ ] Advanced: Show features for web developers
+** [ ] View: Show Status bar (for links on hover)
 * [ ] Install Terminal Emulator (https://ghostty.org/[Ghostty])
 * [ ] Install homebrew
-* [ ] Install `lazygit` ([repo](https://github.com/jesseduffield/lazygit))
-*** [ ] `brew install lazygit`
-* [ ] Get `git` set up [with ssh](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) to GitHub
-*** [ ] [Create new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and [add it](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) to the github account
+* [ ] Install `lazygit` (https://github.com/jesseduffield/lazygit[repo])
+** [ ] `brew install lazygit`
+* [ ] Get `git` set up https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent[with ssh] to GitHub
+** [ ] https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent[Create new SSH key] and https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account[add it] to the github account
 * [ ] Grab My `.zprofile` from GitHub and move to `~`
-* [ ] Install [NerdFonts](https://www.nerdfonts.com)
-*** [ ] I’ve liked FiraCode and GoMono before…
-*** [ ] Add it to your terminal(s) preferences
-* [ ] Install [nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
-*** [ ] `nvm install --lts`
+* [ ] Install https://www.nerdfonts.com[NerdFonts]
+** [ ] I’ve liked FiraCode and GoMono before…
+** [ ] Add it to your terminal(s) preferences
+* [ ] Install https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating[nvm]
+** [ ] `nvm install --lts`
 * [ ] Install Nvim
-*** [ ] Homebrew is an option, as discussed [on the Install page](https://github.com/neovim/neovim/blob/master/INSTALL.md)
-*** [ ] With my config [from GitHub](https://github.com/trogers1/kickstart.nvim)
-*** [ ] Install `ripgrep` for [the kickstart config](https://github.com/trogers1/kickstart.nvim?tab=readme-ov-file#install-external-dependencies): `brew install ripgrep`
-*** [ ] Start nvim to install all plugins (make sure nvm is installed and node has been installed globally first or the ts/js/prettier/css language servers will fail to install)
-*** [ ] Install any LSP requirements that I want (Golang, terraform, etc.)
+** [ ] Homebrew is an option, as discussed https://github.com/neovim/neovim/blob/master/INSTALL.md[on the Install page]
+** [ ] With my config https://github.com/trogers1/kickstart.nvim[from GitHub]
+** [ ] Install `ripgrep` for https://github.com/trogers1/kickstart.nvim?tab=readme-ov-file#install-external-dependencies[the kickstart config]: `brew install ripgrep`
+** [ ] Start nvim to install all plugins (make sure nvm is installed and node has been installed globally first or the ts/js/prettier/css language servers will fail to install)
+** [ ] Install any LSP requirements that I want (Golang, terraform, etc.)
 * [ ] Install Browsers
-*** [ ] Firefox
-*** [ ] Chrome
+** [ ] Firefox
+** [ ] Chrome
 * [ ] Install VS Code and maybe Cursor
-*** [ ] Sync settings by signing in with GitHub
+** [ ] Sync settings by signing in with GitHub
 * [ ] Probably some docker solution (Rancher Desktop or Colima?)
+* [ ]  SQL Interfaces
+** [ ]  pgAdmin
+** [ ]  Beekeeper
+* [ ]  Http Requester
+** [ ]  Bruno
+* [ ]  Install `opencode` via homebrew
+** [ ]  Add API tokens
+*** [ ]  DeepSeek
 
 == Probably
 
 * [ ] Spotify (or just use the browser and pin the tab so you can actually close it)
 * [ ] VPN of some sort
-*** [ ] Mullvad
+** [ ] Mullvad
 
 == IDE Extensions (VSCode)
 
 === Required
 
-* [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-* [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-* [Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)
-* [Snyk Security](https://marketplace.visualstudio.com/items?itemName=snyk-security.snyk-vulnerability-scanner)
+* https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode[Prettier]
+* https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint[ESLint]
+* https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens[Error Lens]
+* https://marketplace.visualstudio.com/items?itemName=snyk-security.snyk-vulnerability-scanner[Snyk Security]
 
 === Recommended
 
-* [Terraform](https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform)
-* [Git Lens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
-* [Live Share](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare)
-* [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
-* [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
+* https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform[Terraform]
+* https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens[Git Lens]
+* https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer[Live Server]
+* https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker[Code Spell Checker]
 
 == macOS
 
@@ -79,7 +86,7 @@ A unix-like environment is helpful, but you'll still need to install some things
 
 I’ll need a Unix-like dev environment to develop. I am not a fan of Windows nor am I super familiar with it, so everything takes me much longer to figure out. 
 
-To get Windows to be as much like a Unix-like system as possible, the most appropriate option is probably the Windows Subsystem for Linux (WSL). To set up WSL, I’ll [need to install it](https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview), which can be done via a command prompt (either `Powershell` or `cmd`). Generally, you can just use a command like
+To get Windows to be as much like a Unix-like system as possible, the most appropriate option is probably the Windows Subsystem for Linux (WSL). To set up WSL, I’ll https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview[need to install it], which can be done via a command prompt (either `Powershell` or `cmd`). Generally, you can just use a command like
 
 `wsl --install ubuntu`
 
