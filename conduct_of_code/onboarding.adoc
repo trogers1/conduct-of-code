@@ -49,6 +49,11 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 * [ ]  Install `opencode` via homebrew
 ** [ ]  Add API tokens
 *** [ ]  DeepSeek
+* [ ] Fix macOS key repeat silliness https://superuser.com/questions/363252/how-to-enable-keyboard-repeat-on-a-mac[as described here]
+** `defaults write -g ApplePressAndHoldEnabled -bool false` (turn off the press+hold feature)
+** `defaults write NSGlobalDomain KeyRepeat -int 0` (set repeat speed to be as fast as it will allow)
+** (optional) `defaults write NSGlobalDomain InitialKeyRepeat -int NUMBER` (set how soon it starts repeating after a press)
+*** Where NUMBER is an integer around 7 or so with smaller numbers being a faster transition to repeating.
 
 == Probably
 
