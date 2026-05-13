@@ -25,6 +25,7 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 ** [ ] `brew install tmux`
 * [ ] Get `git` set up https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent[with ssh] to GitHub
 ** [ ] https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent[Create new SSH key] and https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account[add it] to the github account
+** [ ] Also https://docs.gitlab.com/user/ssh/[add to to GitLab]
 * [ ] Install https://www.nerdfonts.com[NerdFonts]
 ** [ ] I’ve liked FiraCode and GoMono before…
 ** [ ] Add it to your terminal(s) preferences
