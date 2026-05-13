@@ -48,15 +48,12 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 ** [ ] Chrome
 * [ ] Install VS Code and maybe Cursor
 ** [ ] Sync settings by signing in with GitHub
-* [ ] Probably some docker solution (Rancher Desktop or Colima?)
+* [ ] Probably some docker solution (https://docs.rancherdesktop.io/getting-started/installation/[Rancher Desktop] or Colima?)
 * [ ]  SQL Interfaces
 ** [ ]  pgAdmin
-** [ ]  Beekeeper
+** [ ]  https://www.beekeeperstudio.io/[Beekeeper]
 * [ ]  Http Requester
-** [ ]  Bruno
-* [ ]  Install `opencode` via homebrew
-** [ ]  Add API tokens
-*** [ ]  DeepSeek
+** [ ]  https://www.usebruno.com/[Bruno]
 * [ ] Fix macOS key repeat silliness https://superuser.com/questions/363252/how-to-enable-keyboard-repeat-on-a-mac[as described here]
 ** `defaults write -g ApplePressAndHoldEnabled -bool false` (turn off the press+hold feature)
 ** `defaults write NSGlobalDomain KeyRepeat -int 0` (set repeat speed to be as fast as it will allow)
@@ -76,7 +73,6 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 * https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode[Prettier]
 * https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint[ESLint]
 * https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens[Error Lens]
-* https://marketplace.visualstudio.com/items?itemName=snyk-security.snyk-vulnerability-scanner[Snyk Security]
 
 === Recommended
 
@@ -85,19 +81,10 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 * https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer[Live Server]
 * https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker[Code Spell Checker]
 
-== macOS
-
-A unix-like environment is helpful, but you'll still need to install some things such as
-
-* install `homebrew`
-* install `nvm` with homebrew
-* install docker and cogima/Rancher Desktop
-* Install browsers
-
 
 == Windows
 
-I’ll need a Unix-like dev environment to develop. I am not a fan of Windows nor am I super familiar with it, so everything takes me much longer to figure out. 
+I do not like working within the Windows OS. I’ll need a Unix-like dev environment to develop. I am not a fan of Windows nor am I super familiar with it, so everything takes me much longer to figure out. 
 
 To get Windows to be as much like a Unix-like system as possible, the most appropriate option is probably the Windows Subsystem for Linux (WSL). To set up WSL, I’ll https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview[need to install it], which can be done via a command prompt (either `Powershell` or `cmd`). Generally, you can just use a command like
 
