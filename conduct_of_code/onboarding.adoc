@@ -35,13 +35,14 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 ** [ ] Install `ripgrep` for https://github.com/trogers1/kickstart.nvim?tab=readme-ov-file#install-external-dependencies[the kickstart config]:
 *** `brew install ripgrep`
 ** Download/install golang/cargo for nvim AI plugin: https://go.dev/doc/install
+* [ ]  Install `opencode` via homebrew: https://opencode.ai/
+** [ ]  Add API tokens
+*** [ ]  DeepSeek
 * Clone my https://github.com/trogers1/config[config repo]
 ** Inside, run the 'setup' script as described in the README.
 ** [ ] Run `nvm install --lts` to get the latest node version installed (should now be in the path after setup)
 ** [ ] Start `nvim` to install all plugins (make sure `nvm` is installed and `node` has been installed globally first or the ts/js/prettier/css language servers will fail to install; same for `cargo` with golang and my avante-with-permissions plugin)
 ** [ ] Install any LSP requirements that I want (Golang, terraform, etc.)
-* [ ] Grab My `.zprofile` from GitHub and move to `~`
-* [ ] Grab the rest of my config from GitHub and run the setup scripts.
 * [ ] Install Browsers
 ** [ ] Firefox
 ** [ ] Chrome
