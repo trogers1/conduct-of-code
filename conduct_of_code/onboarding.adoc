@@ -18,7 +18,7 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 ** [ ] Advanced: Show features for web developers
 ** [ ] View: Show Status bar (for links on hover)
 * [ ] Install Terminal Emulator (https://ghostty.org/[Ghostty])
-* [ ] Install homebrew
+* [ ] Install https://brew.sh/[homebrew]
 * [ ] Install `lazygit` (https://github.com/jesseduffield/lazygit[repo])
 ** [ ] `brew install lazygit`
 * [ ] Install https://github.com/tmux/tmux/wiki[tmux]
