@@ -43,6 +43,9 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 ** [ ] Run `nvm install --lts` to get the latest node version installed (should now be in the path after setup)
 ** [ ] Start `nvim` to install all plugins (make sure `nvm` is installed and `node` has been installed globally first or the ts/js/prettier/css language servers will fail to install; same for `cargo` with golang and my avante-with-permissions plugin)
 ** [ ] Install any LSP requirements that I want (Golang, terraform, etc.)
+* For IaC work:
+** https://developer.hashicorp.com/terraform/install[terraform]
+** https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#getting-started-install-instructions[AWS CLI]
 * [ ] Install Browsers
 ** [ ] Firefox
 ** [ ] Chrome
