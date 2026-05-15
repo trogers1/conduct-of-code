@@ -53,7 +53,8 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 [default] # or [profile profile_name]
 region = us-east-1 # or other
 output = json
-sso_start_url = https://[something].awsapps.com/start#/ # get from sign in screen
+sso_region = us-east-1 # or other
+sso_start_url = # get from sign in screen
 sso_account_id = # get from sign in screen
 sso_role_name = # get from sign in screen
 ----
