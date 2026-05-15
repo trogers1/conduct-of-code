@@ -46,6 +46,17 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 * For IaC work:
 ** https://developer.hashicorp.com/terraform/install[terraform]
 ** https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#getting-started-install-instructions[AWS CLI]
+*** You will likely need to update the `~/.aws/` folder with specifics for every AWS account. For SSO, you'll need a `config` file something like this:
++
+[source]
+----
+[default] # or [profile profile_name]
+region = us-east-1 # or other
+output = json
+sso_start_url = https://[something].awsapps.com/start#/ # get from sign in screen
+sso_account_id = # get from sign in screen
+sso_role_name = # get from sign in screen
+----
 * [ ] Install Browsers
 ** [ ] Firefox
 ** [ ] Chrome
