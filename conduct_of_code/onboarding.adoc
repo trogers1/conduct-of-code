@@ -36,6 +36,7 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 *** `brew install ripgrep`
 ** [ ] Install `fzf` (https://github.com/junegunn/fzf[repo])
 *** [ ] `brew install fzf`
+** Use `:checkhealth` in `nvim`, and make sure you haven't missed anything important.
 ** Download/install golang/cargo for nvim AI plugin: https://go.dev/doc/install
 * [ ]  Install `opencode` via homebrew: https://opencode.ai/
 ** [ ]  Add API tokens
