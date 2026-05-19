@@ -34,6 +34,8 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 ** [ ] Homebrew is an option, as discussed https://github.com/neovim/neovim/blob/master/INSTALL.md[on the Install page]
 ** [ ] Install `ripgrep` for https://github.com/trogers1/kickstart.nvim?tab=readme-ov-file#install-external-dependencies[the kickstart config]:
 *** `brew install ripgrep`
+** [ ] Install `fzf` (https://github.com/junegunn/fzf[repo])
+*** [ ] `brew install fzf`
 ** Download/install golang/cargo for nvim AI plugin: https://go.dev/doc/install
 * [ ]  Install `opencode` via homebrew: https://opencode.ai/
 ** [ ]  Add API tokens
