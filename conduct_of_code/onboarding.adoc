@@ -38,9 +38,16 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 *** [ ] `brew install fzf`
 ** Use `:checkhealth` in `nvim`, and make sure you haven't missed anything important.
 ** Download/install golang/cargo for nvim AI plugin: https://go.dev/doc/install
+* [ ] Install `pi` as described on their site: https://pi.dev/
+** [ ] Add API tokens
+*** [ ] DeepSeek
+*** [ ] Moonshot
+*** [ ] OpenAI
 * [ ]  Install `opencode` via homebrew: https://opencode.ai/
 ** [ ]  Add API tokens
 *** [ ]  DeepSeek
+*** [ ] Moonshot
+*** [ ] OpenAI
 * Clone my https://github.com/trogers1/config[config repo]
 ** Inside, run the 'setup' script as described in the README.
 ** [ ] Run `nvm install --lts` to get the latest node version installed (should now be in the path after setup)
