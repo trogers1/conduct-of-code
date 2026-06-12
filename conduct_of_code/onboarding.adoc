@@ -38,7 +38,7 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 ** [ ] Install `fzf` (https://github.com/junegunn/fzf[repo])
 *** [ ] `brew install fzf`
 ** Use `:checkhealth` in `nvim`, and make sure you haven't missed anything important.
-** Download/install golang/cargo for nvim AI plugin: https://go.dev/doc/install
+** Download/install golang/rust (cargo) for nvim AI plugin: https://go.dev/doc/install and https://rust-lang.org/tools/install/
 * [ ] Install `pi` as described on their site: https://pi.dev/
 ** [ ] Add API tokens
 *** [ ] DeepSeek
@@ -52,8 +52,8 @@ NOTE: This would be used for onboarding new engineers to the team--getting acces
 * Clone my https://github.com/trogers1/config[config repo]
 ** Inside, run the 'setup' script as described in the README.
 ** [ ] Restart your terminal and check that `nvm` and `node` are present (should now be in the path after setup)
-** [ ] Start `nvim` to install all plugins (make sure `nvm` is installed and `node` has been installed globally first or the ts/js/prettier/css language servers will fail to install; same for `cargo` with golang and my avante-with-permissions plugin)
-** [ ] Install any LSP requirements that I want (Golang, terraform, etc.)
+** [ ] Start `nvim` to install all plugins (make sure `nvm` is installed and `node` has been installed globally first or the ts/js/prettier/css language servers will fail to install; same for rust's `cargo` with golang and my avante-with-permissions plugin)
+** [ ] Install any LSP requirements that I want (Golang, Rust, terraform, etc.)
 * For IaC work:
 ** https://developer.hashicorp.com/terraform/install[terraform]
 ** https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#getting-started-install-instructions[AWS CLI]
